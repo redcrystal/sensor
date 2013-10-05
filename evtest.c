@@ -69,9 +69,7 @@ int main (int argc, char **argv)
 	if ((fd = open("/dev/input/event3", O_RDONLY)) < 0) {
 		perror("evtest");
 		if (errno == EACCES && getuid() != 0)
-			fprintf(stderr, "You do not have access to %s. Try "
-					"running as root instead.\n",
-					filename);
+			fprintf(stderr, "error");
 		return EXIT_FAILURE;
 	}
 	print_events(fd);
