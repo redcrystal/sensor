@@ -55,23 +55,17 @@ static int print_events(int fd)
 
 		for (i = 0; i < sud / sizeof(struct input_event); i++) {
 			printf("Event: time %ld.%06ld, ", ev[i].time.tv_sec, ev[i].time.tv_usec);
+			
+			printf("type %d (%s), code %d (%s), ",
+				ev[i].type,
+				events[ev[i].type] ? events[ev[i].type] : "?",
+				ev[i].code,
+				names[ev[i].type] ? (names[ev[i].type][ev[i].code] ? names[ev[i].type][ev[i].code] : "?") : "?");
+			if (ev[i].type == EV_MSC && (ev[i].code == MSC_RAW || ev[i].code == MSC_SCAN))
+				printf("value %02x\n", ev[i].value);
+			else
+				printf("value %d\n", ev[i].value);
 
-			if (ev[i].type == EV_SYN) {
-				if (ev[i].code == SYN_MT_REPORT)
-					printf("++++++++++++++ %s ++++++++++++\n", syns[ev[i].code]);
-				else
-					printf("-------------- %s ------------\n", syns[ev[i].code]);
-			} else {
-				printf("type %d (%s), code %d (%s), ",
-					ev[i].type,
-					events[ev[i].type] ? events[ev[i].type] : "?",
-					ev[i].code,
-					names[ev[i].type] ? (names[ev[i].type][ev[i].code] ? names[ev[i].type][ev[i].code] : "?") : "?");
-				if (ev[i].type == EV_MSC && (ev[i].code == MSC_RAW || ev[i].code == MSC_SCAN))
-					printf("value %02x\n", ev[i].value);
-				else
-					printf("value %d\n", ev[i].value);
-			}
 		}
 
 	}
