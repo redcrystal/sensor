@@ -38,6 +38,10 @@
 
 #define NAME_ELEMENT(element) [element] = #element
 
+#define ABS_X                   0x00
+#define ABS_Y                   0x01
+#define ABS_Z                   0x02
+
 
 static int print_events(int fd)
 {
@@ -53,9 +57,10 @@ static int print_events(int fd)
 			return 1;
 		}
 
-		for (i = 0; i < 3; i++) {
-			printf("Event: time %ld.%06ld, ", ev[i].time.tv_sec, ev[i].time.tv_usec);
-			
+		//for (i = 0; i < 3; i++) { printf("Event: time %ld.%06ld, ", ev[i].time.tv_sec, ev[i].time.tv_usec);
+		if (ev[i].code == ABS_X) printf(" x : ");
+		if (ev[i].code == ABS_Y) printf(" y : ");
+		if (ev[i].code == ABS_Z) printf(" z : ");
 		printf("value %d\n", ev[i].value);
 
 		}
